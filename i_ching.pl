@@ -1,29 +1,29 @@
 #!/usr/bin/perl
 
-# *******************************************************************************
-# File   : i_ching.pl
-# ------------------------------------------------------------------------------
-# Author : John Jacobs <jjacobs@xs4all.nl>
-# Date   : 26 september 2014
-# Version: 0.1
-#
-# Description: Perl script for consulting the I-Ching
-#
-# Remarks: original Yarrow stalks simulator code by TGI
-#
-# (C) 2014: This program is free software: you can redistribute it and/or modify
-#           it under the terms of the GNU General Public License as published by
-#           the Free Software Foundation, either version 3 of the License, or
-#           (at your option) any later version.
-#
-#           This program is distributed in the hope that it will be useful,
-#           but WITHOUT ANY WARRANTY; without even the implied warranty of
-#           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#           GNU General Public License for more details.
-#
-#           You should have received a copy of the GNU General Public License
-#           along with this program.  If not, see <http://www.gnu.org/licenses/>.
-# *******************************************************************************
+# *******************************************************************************#
+# File   : i_ching.pl                                                            #
+# -------------------------------------------------------------------------------#
+# Author : John Jacobs <jjacobs@xs4all.nl>                                       #
+# Date   : 26 september 2014                                                     #
+# Version: 0.1                                                                   #
+#                                                                                #
+# Description: Perl script for consulting the I-Ching                            #
+#                                                                                #
+# Remarks: original Yarrow stalks simulator code by TGI                          #
+#                                                                                #
+# (C) 2014: This program is free software: you can redistribute it and/or modify #
+#           it under the terms of the GNU General Public License as published by #
+#           the Free Software Foundation, either version 3 of the License, or    #
+#           (at your option) any later version.                                  #
+#                                                                                #
+#           This program is distributed in the hope that it will be useful,      #
+#           but WITHOUT ANY WARRANTY; without even the implied warranty of       #
+#           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        #
+#           GNU General Public License for more details.                         #
+#                                                                                #
+#           You should have received a copy of the GNU General Public License    #
+#           along with this program. If not, see <http://www.gnu.org/licenses/>. #
+# *******************************************************************************#
 
 use 5.010;
 use strict;
@@ -31,9 +31,11 @@ use warnings;
 use utf8;
 
 my $hexagram = GenerateHexagram();
+my $hexagram_key = GenerateKey($hexagram);
 
-print "\nHexagram: $hexagram\n\n";
-
+my $moving_key = GenerateMovingHexagram($hexagram);
+$moving_key = GenerateKey($moving_key) if $moving_key;
+    
 DrawHexagrams($hexagram);
 
 # ========================================================
@@ -44,18 +46,34 @@ sub DrawHexagrams {
     for (0..5) {
         my $line = substr($hexagram, $_, 1);
         
-        if ($line eq '6') {
-             print "--  --  =>  ------\n";
-        } elsif ($line eq '7') {
-             print "------      ------\n";
-        } elsif ($line eq '8') {
-             print "--  --      --  --\n";
-        } elsif ($line eq '9') {
-             print "------  =>  --  --\n";
+        given ($line) {
+            when (6) {print "--  --  =>  ------\n"};
+            when (7) {print "------      ------\n"};
+            when (8) {print "--  --      --  --\n"};
+            when (9) {print "------  =>  --  --\n"};
         }
     }
 }
+
+sub GenerateKey {
+    my $hexagram = shift;
+    my $key = '';
     
+    for (0..5) {
+        my $line = substr($hexagram, $_, 1);
+        
+        $key .= '0' if $line =~ /[68]/;
+        $key .= '1' if $line =~ /[79]/;
+    }
+    
+    $key;
+}
+    
+sub GenerateMovingHexagram {
+    my $hexagram = shift;
+    $hexagram =~ tr/69/78/ ? $hexagram : '';
+}
+
 sub PileSplit
 {   my $pile_ref = shift ; # Pile to split
     my $max_diff = shift ; # Maximum difference in pile size.
