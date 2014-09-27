@@ -30,6 +30,9 @@ use strict;
 use warnings;
 use utf8;
 
+my $browser = '"C:\Program Files (x86)\Mozilla Firefox\firefox.exe"';
+my $book_directory = 'C:\Users\John\Documents\Develop\I_Ching\Book\\';
+
 my $hexagram = GenerateHexagram();
 my $hexagram_key = GenerateKey($hexagram);
 
@@ -38,9 +41,14 @@ $moving_key = GenerateKey($moving_key) if $moving_key;
     
 DrawHexagrams($hexagram);
 
-# Firefox MOET runnen voordat het script gstart wordt!
-system("C:\\Users\\John\\Documents\\Develop\\I_Ching\\Book\\$moving_key.html") if $moving_key;
-system("C:\\Users\\John\\Documents\\Develop\\I_Ching\\Book\\$hexagram_key.html");
+my $moving_page = $moving_key ? $book_directory . "$moving_key.html" : '' ;
+my $hexagram_page = $book_directory . "$hexagram_key.html";
+
+push(my @command, $browser);
+push(@command, $hexagram_page);
+push(@command, $moving_page) if $moving_key;
+
+system(@command);
 
 # ========================================================
 
