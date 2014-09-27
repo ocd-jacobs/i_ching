@@ -38,6 +38,10 @@ $moving_key = GenerateKey($moving_key) if $moving_key;
     
 DrawHexagrams($hexagram);
 
+# Firefox MOET runnen voordat het script gstart wordt!
+system("C:\\Users\\John\\Documents\\Develop\\I_Ching\\Book\\$moving_key.html") if $moving_key;
+system("C:\\Users\\John\\Documents\\Develop\\I_Ching\\Book\\$hexagram_key.html");
+
 # ========================================================
 
 sub DrawHexagrams {
