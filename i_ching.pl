@@ -114,11 +114,6 @@ print "$hexagram_key => $moving_key\n\n";
 print "$hexagram_names{$hexagram_key} => $hexagram_names{$moving_key}\n\n";
 DrawHexagrams($hexagram);
 
-# TODO: correct the following:
-# Keys of %hexagram_names not in bottom to top order!
-$moving_key = reverse($moving_key);
-$hexagram_key = reverse($hexagram_key);
-
 my $moving_page = $moving_key ? $book_directory . "$moving_key.html" : '' ;
 my $hexagram_page = $book_directory . "$hexagram_key.html";
 
