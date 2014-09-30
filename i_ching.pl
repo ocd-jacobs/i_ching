@@ -108,10 +108,7 @@ my $hexagram_key = GenerateKey($hexagram);
 my $moving_hexagram = GenerateMovingHexagram($hexagram);
 my $moving_key = $moving_hexagram ? GenerateKey($moving_hexagram) : '';
 
-print "$hexagram => $moving_hexagram\n\n";
-print "$hexagram_key => $moving_key\n\n";
-
-print "$hexagram_names{$hexagram_key} => $hexagram_names{$moving_key}\n\n";
+print "\n$hexagram_names{$hexagram_key} => $hexagram_names{$moving_key}\n\n", ;
 DrawHexagrams($hexagram);
 
 my $moving_page = $moving_key ? $book_directory . "$moving_key.html" : '' ;
