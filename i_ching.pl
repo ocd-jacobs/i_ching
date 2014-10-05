@@ -39,21 +39,44 @@ my $hexagram_key = GenerateKey($hexagram);
 my $moving_hexagram = GenerateMovingHexagram($hexagram);
 my $moving_key = $moving_hexagram ? GenerateKey($moving_hexagram) : '';
 
-print "\n", HexagramName($hexagram_key), " => ", HexagramName($moving_key), "\n\n", ;
-DrawHexagrams($hexagram);
-print "\n";
+DisplayReading();
+LogReading();
 
 my $moving_page = $moving_key ? $book_directory . "$moving_key.html" : '' ;
 my $hexagram_page = $book_directory . "$hexagram_key.html";
 
-push(my @command, $browser);
-push(@command, $hexagram_page);
+push(my @command, $browser, $hexagram_page);
 push(@command, $moving_page) if $moving_key;
 
 system(@command);
 
 # ========================================================
 
+sub LogReading {
+    open my $READINGS, '>>', 'readings.txt' or die $!;
+    select $READINGS;
+
+    print ('*' x 80);
+    print "\n\n";
+    
+    my ($weekday, $month, $day, $time, $year) = split ' ', localtime();
+    print "$weekday $day $month $year at $time\n";    
+    
+    DisplayReading();  
+    print "Notes: \n\n";
+    
+    select STDOUT;
+    close $READINGS;
+}
+
+sub DisplayReading {
+    #my ($hexagram_key, $moving_key) = @_;
+    
+    print "\n", HexagramName($hexagram_key), " => ", HexagramName($moving_key), "\n\n", ;
+    DrawHexagrams($hexagram);
+    print "\n";
+}
+    
 sub DrawHexagrams {
     my $hexagram = reverse(shift);
     
@@ -126,7 +149,7 @@ sub HexagramName {
           '101101' => "30. Li / The Clinging, Fire",
           '001110' => "31. Hsien / Influence (Wooing)",
           '011100' => "32. Hêng / Duration",
-          '001111' => "33. TUN / Retreat",
+          '001111' => "33. Tun / Retreat",
           '111100' => "34. Ta Chuang / The Power of the Great",
           '000101' => "35. Chin / Progress",
           '101000' => "36. Ming I / Darkening of the light",
@@ -160,7 +183,7 @@ sub HexagramName {
           '010101' => "64. Wei Chi / Before Completion",
          );
 
-        $hexagram_names{$key};
+    $hexagram_names{$key};
 }
 
 sub PileSplit
