@@ -5,7 +5,7 @@
 # -------------------------------------------------------------------------------#
 # Author : John Jacobs <jjacobs@xs4all.nl>                                       #
 # Date   : 26 september 2014                                                     #
-# Version: 0.1                                                                   #
+# Version: 0.5                                                                   #
 #                                                                                #
 # Description: Perl script for consulting the I-Ching                            #
 #                                                                                #
@@ -33,6 +33,8 @@ use utf8;
 my $browser = '"C:\Program Files (x86)\Mozilla Firefox\firefox.exe"';
 my $book_directory = 'C:\Users\John\Documents\Develop\I_Ching\Book\\';
 
+my $question = GetQuestion();
+
 my $hexagram = GenerateHexagram();
 my $hexagram_key = GenerateKey($hexagram);
 
@@ -52,6 +54,19 @@ system(@command);
 
 # ========================================================
 
+sub GetQuestion {
+    print "\nEnter your question, finish with an empty line:\n\n";
+    
+    my $a = '';
+    
+    while (<>) {
+        last unless /\S/;
+        $a = $a . $_;
+    }
+    
+    $a;
+}
+
 sub LogReading {
     open my $READINGS, '>>', 'readings.txt' or die $!;
     select $READINGS;
@@ -60,7 +75,14 @@ sub LogReading {
     print "\n\n";
     
     my ($weekday, $month, $day, $time, $year) = split ' ', localtime();
-    print "$weekday $day $month $year at $time\n";    
+    print "$weekday $day $month $year at $time\n\n";    
+    
+    my @sentences = split(/\n/, $question);
+    
+    print "Question: " . shift(@sentences) . "\n";
+    for my $sentence (@sentences) {
+        print "          $sentence\n";
+    }
     
     DisplayReading();  
     print "Notes: \n\n";
