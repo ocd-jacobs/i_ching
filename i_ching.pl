@@ -71,8 +71,7 @@ sub LogReading {
     open my $READINGS, '>>', 'readings.txt' or die $!;
     select $READINGS;
 
-    print ('*' x 80);
-    print "\n\n";
+    print(('*' x 80), "\n\n");
     
     my ($weekday, $month, $day, $time, $year) = split ' ', localtime();
     print "$weekday $day $month $year at $time\n\n";    
@@ -81,7 +80,7 @@ sub LogReading {
     
     print "Question: " . shift(@sentences) . "\n";
     for my $sentence (@sentences) {
-        print "          $sentence\n";
+        print((' ' x 10), $sentence, "\n");
     }
     
     DisplayReading();  
