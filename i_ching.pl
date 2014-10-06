@@ -91,8 +91,6 @@ sub LogReading {
 }
 
 sub DisplayReading {
-    #my ($hexagram_key, $moving_key) = @_;
-    
     print "\n", HexagramName($hexagram_key), " => ", HexagramName($moving_key), "\n\n", ;
     DrawHexagrams($hexagram);
     print "\n";
@@ -370,9 +368,6 @@ sub GenerateHexagram
     
     $hexagram = join '',@$below,@$above;
     my $moving = $hexagram;
-    
-    # $moving =~ tr/6789/7788/;
-    # $hexagram =~ tr/6789/8787/;
     
     return ($hexagram);
 }
