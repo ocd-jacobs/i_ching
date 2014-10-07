@@ -1,3 +1,5 @@
 Misc/
-readings.txt
 Book/*.htm
+Book/*.*~
+*.*~
+readings.txt
