@@ -79,8 +79,8 @@ sub LogReading {
     my @sentences = split(/\n/, $question);
     
     print "Question: " . shift(@sentences) . "\n";
-    for my $sentence (@sentences) {
-        print((' ' x 10), $sentence, "\n");
+    for (@sentences) {
+        print((' ' x 10), $_, "\n");
     }
     
     DisplayReading();  
