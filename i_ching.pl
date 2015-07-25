@@ -31,7 +31,7 @@ use warnings;
 use utf8;
 
 my $browser = '"C:\Program Files (x86)\Mozilla Firefox\firefox.exe"';
-my $book_directory = 'C:\Users\John\Documents\Develop\I_Ching\Book\\';
+my $book_directory = 'Book\\';
 
 my $question = GetQuestion();
 
